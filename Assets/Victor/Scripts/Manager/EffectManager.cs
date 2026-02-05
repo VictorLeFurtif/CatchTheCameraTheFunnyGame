@@ -20,7 +20,9 @@ public class EffectManager : MonoBehaviour
             
         m_defaultFov = cameraMain.fieldOfView;
     }
-    
+
+    #region FOV Effects
+
     public void FovEffect()
     {
         if (m_currentEffect != null)
@@ -55,4 +57,15 @@ public class EffectManager : MonoBehaviour
         cameraMain.fieldOfView = m_defaultFov;
         m_currentEffect = null;
     }
+
+    #endregion
+
+    #region Inverse controls Effects
+
+    private void ToggleControls() => EventManager.ToggleControls();
+
+    #endregion
+    
+    
+    
 }
