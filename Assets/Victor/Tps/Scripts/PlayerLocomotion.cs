@@ -92,6 +92,16 @@ public class PlayerLocomotion : MonoBehaviour
         m_cameraObject = m_camera.transform;
     }
 
+    private void OnEnable()
+    {
+        EventManager.OnToggleControls += ToggleControls;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnToggleControls -= ToggleControls;
+    }
+
     private void HandleMovement()
     {
         if (IsJumping) return;
@@ -226,5 +236,10 @@ public class PlayerLocomotion : MonoBehaviour
             playerVelocity.y = jumpingVelocity;
             m_rb.linearVelocity = playerVelocity;
         }
+    }
+
+    private void ToggleControls()
+    {
+        isInverseControl = !isInverseControl;
     }
 }
