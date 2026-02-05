@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     private Vector2 m_cameraInput;
     private bool m_sprintingInputPressed;
     private bool m_jumpInput;
+    private bool m_cancelInput = false;
     #endregion
 
     #region Component References
@@ -27,6 +28,7 @@ public class InputManager : MonoBehaviour
     public float HorizontalInput { get; private set; }
     public float CameraInputX { get; private set; }
     public float CameraInputY { get; private set; }
+    
     #endregion
     
     private void OnEnable()
@@ -44,10 +46,14 @@ public class InputManager : MonoBehaviour
         }
         
         m_playerControls.Enable();
+
+        EventManager.OnPlayerDeath += CancelInput;
+        
     }
     private void OnDisable()
     {
         m_playerControls.Disable();
+        EventManager.OnPlayerDeath -= CancelInput;
     }
 
     private void HandleMovementInput()
@@ -61,6 +67,7 @@ public class InputManager : MonoBehaviour
         
         MoveAmount = Mathf.Clamp01(Mathf.Abs(HorizontalInput) + Mathf.Abs(VerticalInput));
         m_animatorManager.UpdateAnimatorValues(0,MoveAmount,m_playerLocomotion.IsSprinting);
+        
     }
 
     private void HandleSprintingInput()
@@ -77,6 +84,8 @@ public class InputManager : MonoBehaviour
 
     public void HandleAllInputs()
     {
+        if (m_cancelInput) return;
+        
         HandleMovementInput();
         HandleSprintingInput();
         HandleJumpingInput();
@@ -89,5 +98,11 @@ public class InputManager : MonoBehaviour
             m_jumpInput = false;
             m_playerLocomotion.HandleJump();
         }
+    }
+
+    private void CancelInput()
+    {
+        m_cancelInput = true;
+        print("Cancel");
     }
 }
