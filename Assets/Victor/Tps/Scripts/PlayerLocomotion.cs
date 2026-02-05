@@ -14,9 +14,9 @@ public class PlayerLocomotion : MonoBehaviour
     #endregion
 
     #region Public Properties
-    public bool IsSprinting = false;
-    public bool IsGrounded = false;
-    public bool IsJumping = false;
+    [HideInInspector] public bool IsSprinting = false;
+    [HideInInspector] public bool IsGrounded = false;
+    [HideInInspector] public bool IsJumping = false;
     #endregion
 
     #region Component References
@@ -53,6 +53,8 @@ public class PlayerLocomotion : MonoBehaviour
     [Space(10)]
     [SerializeField, Range(1f, 30f), Tooltip("Speed of character rotation")]
     private float m_rotationSpeed = 15f;
+
+    [SerializeField] private bool isInverseControl = false;
     #endregion
 
     #region Jump & Gravity Settings
@@ -92,13 +94,20 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (IsJumping)
+        if (IsJumping) return;
+
+        if (!isInverseControl)
         {
-            return;
+            m_moveDirection = m_cameraObject.forward * m_inputManager.VerticalInput;
+            m_moveDirection += m_cameraObject.right * m_inputManager.HorizontalInput;
+        }
+        else
+        {
+            m_moveDirection = m_cameraObject.forward * -m_inputManager.VerticalInput;
+            m_moveDirection += m_cameraObject.right * -m_inputManager.HorizontalInput;
         }
         
-        m_moveDirection = m_cameraObject.forward * m_inputManager.VerticalInput;
-        m_moveDirection += m_cameraObject.right * m_inputManager.HorizontalInput;
+        
         m_moveDirection.Normalize();
         m_moveDirection.y = 0;
 
