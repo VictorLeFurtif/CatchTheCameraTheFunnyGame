@@ -9,6 +9,8 @@ public class CameraController : MonoBehaviour
     
     [SerializeField] private CameraDirectionState m_cameraDirectionState = CameraDirectionState.None;
     
+    
+    
     #endregion
 
     #region Unity LifeCycle
@@ -17,6 +19,8 @@ public class CameraController : MonoBehaviour
     {
         CameraMovement();
     }
+
+   
 
     #endregion
 

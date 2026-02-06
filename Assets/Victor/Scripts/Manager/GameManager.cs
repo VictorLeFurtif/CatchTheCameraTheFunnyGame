@@ -14,6 +14,12 @@ public class GameManager : MonoBehaviour
     private float m_timerCheckDeath;
 
     private bool m_gameEnd = false;
+    
+    private float m_distanceBetweenPlayerCamera;
+    
+    [SerializeField] private Material m_materialDeathIndicator;
+    private float m_deathShaderInitialIntensity;
+    [SerializeField] private string m_nameDeathShaderParameters = "_Intensity";
 
     #endregion
 
@@ -23,6 +29,18 @@ public class GameManager : MonoBehaviour
     {
         CheckIfPlayerTooFar();
     }
+    
+    private void Start()
+    {
+        if (m_materialDeathIndicator != null)
+            m_deathShaderInitialIntensity = m_materialDeathIndicator.GetFloat(m_nameDeathShaderParameters);
+    }
+
+    private void OnDestroy()
+    {
+        if (m_materialDeathIndicator != null)
+            m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, m_deathShaderInitialIntensity);
+    }
 
     #endregion
 
@@ -30,25 +48,21 @@ public class GameManager : MonoBehaviour
 
     private void CheckIfPlayerTooFar()
     {
-        if (!(Vector3.Distance(m_cameraObject.transform.position, m_playerObject.transform.position) > m_maxDistance)
-            || m_gameEnd) return;
+        m_distanceBetweenPlayerCamera =
+            Vector3.Distance(m_cameraObject.transform.position, m_playerObject.transform.position);
+        
+        float t = m_distanceBetweenPlayerCamera / m_maxDistance;
+        
+        m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, t);
+        
+        if (!( m_distanceBetweenPlayerCamera > m_maxDistance) || m_gameEnd) return;
         
         
         EventManager.PlayerDeath();
         m_gameEnd = true;
         print("Game Over");
 
-
-        /*if (m_timerCheckDeath > 1)
-        {
-            m_timerCheckDeath = 0;
-            
-            
-        }
-        else
-        {
-            m_timerCheckDeath +=  Time.deltaTime;
-        }*/
+        
 
 
     }

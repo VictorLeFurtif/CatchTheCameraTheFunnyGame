@@ -2,9 +2,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class EffectManager : MonoBehaviour
 {
+
+    #region Variable
+
     [Header("Components")]
     [SerializeField] private Camera cameraMain;
     
@@ -34,6 +38,21 @@ public class EffectManager : MonoBehaviour
     [SerializeField] private float m_fadeAlcool = 1;
     [SerializeField] private string m_nameAlcoolParameters = "_Intensity";
     
+    [Header("Settings Inverse Controls ")]
+    [SerializeField] private float m_minTimeInverseControls = 0f;
+    [SerializeField] private float m_maxTimeInverseControls = 0f;
+    private float timerInverseControls = 0f;
+    private float timerInverseControlsMax = 0f;
+
+    #endregion
+    
+    #region Unity Lifecycle
+
+    private void Update()
+    {
+        TimerInverseControls();
+    }
+
     private void Start()
     {
         if (cameraMain == null)
@@ -46,8 +65,9 @@ public class EffectManager : MonoBehaviour
             
         if (m_materialAlcool != null)
             m_alcoolInitialIntensity = m_materialAlcool.GetFloat("_Intensity");
+        
+        timerInverseControlsMax = Random.Range(m_minTimeInverseControls, m_maxTimeInverseControls);
     }
-    
     
     private void OnDestroy()
     {
@@ -71,6 +91,8 @@ public class EffectManager : MonoBehaviour
         EventManager.OnFovEffect -= FovEffect;
         EventManager.OnVortexEffect -= VortexEffect;
     }
+
+    #endregion
 
     #region FOV Effects
 
@@ -158,6 +180,23 @@ public class EffectManager : MonoBehaviour
     {
         StartCoroutine(ToggleIntensityEffect(m_intensityAlcool,
             m_durationAlcool, m_fadeAlcool, m_materialAlcool,m_nameAlcoolParameters));
+    }
+
+    #endregion
+
+    #region Timer Inverse Controls
+
+    private void TimerInverseControls()
+    {
+        if (timerInverseControls > timerInverseControlsMax)
+        {
+            timerInverseControls = 0;
+            EventManager.ToggleControls();
+        }
+        else
+        {
+            timerInverseControls +=  Time.deltaTime;
+        }
     }
 
     #endregion
