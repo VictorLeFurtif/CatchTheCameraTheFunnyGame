@@ -7,6 +7,10 @@ public static class EventManager
     public static event Action OnPlayerSpawn;
     public static event Action OnToggleControls;
 
+    public static event Action OnFovEffect;
+    public static event Action OnAlcoolEffect;
+    public static event Action OnVortexEffect;
+
     public static void PlayerDeath()
     {
         OnPlayerDeath?.Invoke();
@@ -15,5 +19,20 @@ public static class EventManager
     public static void ToggleControls()
     {
         OnToggleControls?.Invoke();
+    }
+    
+    public static void FovEffect()
+    {
+        OnFovEffect?.Invoke();
+    }
+
+    public static void AlcoolEffect()
+    {
+        OnAlcoolEffect?.Invoke();
+    }
+
+    public static void VortexEffect()
+    {
+        OnVortexEffect?.Invoke();
     }
 }

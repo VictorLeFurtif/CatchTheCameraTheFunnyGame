@@ -22,6 +22,18 @@ public class EffectManager : MonoBehaviour
     private float m_vortexInitialIntensity;
     private float m_alcoolInitialIntensity;
     
+    [Header("Settings Vortex Effects")]
+    [SerializeField] private float m_intensityVortex = 0.5f; 
+    [SerializeField] private float m_durationVortex = 5;
+    [SerializeField] private float m_fadeVortex = 1;
+    [SerializeField] private string m_nameVortexParameters = "_Intensity";
+    
+    [Header("Settings Alcool Effects")]
+    [SerializeField] private float m_intensityAlcool = 1f; 
+    [SerializeField] private float m_durationAlcool = 5;
+    [SerializeField] private float m_fadeAlcool = 1;
+    [SerializeField] private string m_nameAlcoolParameters = "_Intensity";
+    
     private void Start()
     {
         if (cameraMain == null)
@@ -44,6 +56,20 @@ public class EffectManager : MonoBehaviour
             
         if (m_materialAlcool != null)
             m_materialAlcool.SetFloat("_Intensity", m_alcoolInitialIntensity);
+    }
+
+    private void OnEnable()
+    {
+        EventManager.OnAlcoolEffect += AlcoolEffect;
+        EventManager.OnFovEffect += FovEffect;
+        EventManager.OnVortexEffect += VortexEffect;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnAlcoolEffect -= AlcoolEffect;
+        EventManager.OnFovEffect -= FovEffect;
+        EventManager.OnVortexEffect -= VortexEffect;
     }
 
     #region FOV Effects
@@ -122,14 +148,16 @@ public class EffectManager : MonoBehaviour
         material.SetFloat(nameParameters, 0);
     }
 
-    public void VortexEffect(float intensity = 0.5f, float duration = 5f, float fadeTime = 1f)
+    public void VortexEffect()
     {
-        StartCoroutine(ToggleIntensityEffect(intensity, duration, fadeTime, m_materialVortex, "_Intensity"));
+        StartCoroutine(ToggleIntensityEffect(m_intensityVortex,
+            m_durationVortex, m_fadeVortex,m_materialVortex,m_nameVortexParameters));
     }
     
-    public void AlcoolEffect(float intensity = 1f, float duration = 5f, float fadeTime = 1f)
+    public void AlcoolEffect()
     {
-        StartCoroutine(ToggleIntensityEffect(intensity, duration, fadeTime, m_materialAlcool, "_Intensity"));
+        StartCoroutine(ToggleIntensityEffect(m_intensityAlcool,
+            m_durationAlcool, m_fadeAlcool, m_materialAlcool,m_nameAlcoolParameters));
     }
 
     #endregion
