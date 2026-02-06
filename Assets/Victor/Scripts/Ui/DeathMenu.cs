@@ -9,13 +9,13 @@ public class DeathMenu : MonoBehaviour
     private void OnEnable()
     {
         EventManager.OnPlayerDeath += ActivePanelDeathMenu;
-        EventManager.OnPlayerDeath += ActivePanelWonMenu;
+        EventManager.OnPlayerWin += ActivePanelWonMenu;
     }
 
     private void OnDisable()
     {
         EventManager.OnPlayerDeath -= ActivePanelDeathMenu;
-        EventManager.OnPlayerDeath -= ActivePanelWonMenu;
+        EventManager.OnPlayerWin -= ActivePanelWonMenu;
     }
 
     private void Awake()

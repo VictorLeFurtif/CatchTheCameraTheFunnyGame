@@ -56,11 +56,10 @@ public class GameManager : MonoBehaviour
         
         m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, t);
 
-        if (m_distanceBetweenPlayerCamera <= m_minDistance)
+        if (m_distanceBetweenPlayerCamera <= m_minDistance && !m_gameEnd)
         {
             EventManager.PlayerWin();
             m_gameEnd = true;
-            print("Won");
         }
         
         
@@ -70,7 +69,7 @@ public class GameManager : MonoBehaviour
         
         EventManager.PlayerDeath();
         m_gameEnd = true;
-        print("Game Over");
+        
 
         
 

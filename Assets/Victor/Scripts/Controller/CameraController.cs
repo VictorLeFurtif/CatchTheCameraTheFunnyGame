@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour
 
     #region Unity LifeCycle
 
-    private void FixedUpdate()
+    private void Update()
     {
         CameraMovement();
     }
