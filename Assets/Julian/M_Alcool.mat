@@ -39,9 +39,9 @@ Material:
     m_Floats:
     - _ChromaOffset: 3.95
     - _DoubleVisionOffset: 1.33
-    - _Intensity: 1
+    - _Intensity: 0
     - _WaveAmount: 0.05
-    - _WaveSpeed: 2.94
+    - _WaveSpeed: 4.72
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
