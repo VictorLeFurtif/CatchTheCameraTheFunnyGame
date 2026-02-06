@@ -5,5 +5,6 @@ namespace Victor.Scripts.Enums
         Menu,
         Game,
         GameOver,
+        Won
     }
 }

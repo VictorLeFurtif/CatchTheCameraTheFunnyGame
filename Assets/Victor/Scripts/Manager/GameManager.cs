@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject m_playerObject;
     
     [SerializeField] private float m_maxDistance;
+    [SerializeField] private float m_minDistance;
 
     private float m_timerCheckDeath;
 
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        CheckIfPlayerTooFar();
+        CheckPlayerWinAndLoose();
     }
     
     private void Start()
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     #region Game Management
 
-    private void CheckIfPlayerTooFar()
+    private void CheckPlayerWinAndLoose()
     {
         m_distanceBetweenPlayerCamera =
             Vector3.Distance(m_cameraObject.transform.position, m_playerObject.transform.position);
@@ -54,6 +55,15 @@ public class GameManager : MonoBehaviour
         float t = m_distanceBetweenPlayerCamera / m_maxDistance;
         
         m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, t);
+
+        if (m_distanceBetweenPlayerCamera <= m_minDistance)
+        {
+            EventManager.PlayerWin();
+            m_gameEnd = true;
+            print("Won");
+        }
+        
+        
         
         if (!( m_distanceBetweenPlayerCamera > m_maxDistance) || m_gameEnd) return;
         

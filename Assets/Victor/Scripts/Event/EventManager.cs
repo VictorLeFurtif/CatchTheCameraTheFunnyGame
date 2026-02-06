@@ -4,7 +4,7 @@ using UnityEngine;
 public static class EventManager 
 {
     public static event Action OnPlayerDeath;
-    public static event Action OnPlayerSpawn;
+    public static event Action OnPlayerWin;
     public static event Action OnToggleControls;
 
     public static event Action OnFovEffect;
@@ -14,6 +14,11 @@ public static class EventManager
     public static void PlayerDeath()
     {
         OnPlayerDeath?.Invoke();
+    }
+
+    public static void PlayerWin()
+    {
+        OnPlayerWin?.Invoke();
     }
 
     public static void ToggleControls()

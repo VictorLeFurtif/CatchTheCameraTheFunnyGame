@@ -78,6 +78,12 @@ namespace Victor.Scripts.Manager
             ChangeGameState(GameState.GameOver);
             Time.timeScale = 0f;
         }
+        
+        public void GameWin()
+        {
+            ChangeGameState(GameState.Won);
+            Time.timeScale = 0f;
+        }
 
         public void RestartGame()
         {
