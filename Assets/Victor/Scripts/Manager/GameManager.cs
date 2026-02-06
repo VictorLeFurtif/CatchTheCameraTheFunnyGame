@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Material m_materialDeathIndicator;
     private float m_deathShaderInitialIntensity;
     [SerializeField] private string m_nameDeathShaderParameters = "_Intensity";
+    [SerializeField] private float m_endLevelZ;
+
 
     #endregion
 
@@ -49,32 +51,36 @@ public class GameManager : MonoBehaviour
 
     private void CheckPlayerWinAndLoose()
     {
+        if (m_gameEnd) return;
+
         m_distanceBetweenPlayerCamera =
             Vector3.Distance(m_cameraObject.transform.position, m_playerObject.transform.position);
-        
+
         float t = m_distanceBetweenPlayerCamera / m_maxDistance;
-        
         m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, t);
 
-        if (m_distanceBetweenPlayerCamera <= m_minDistance && !m_gameEnd)
+        if (m_distanceBetweenPlayerCamera <= m_minDistance)
         {
             EventManager.PlayerWin();
             m_gameEnd = true;
+            return;
         }
-        
-        
-        
-        if (!( m_distanceBetweenPlayerCamera > m_maxDistance) || m_gameEnd) return;
-        
-        
-        EventManager.PlayerDeath();
-        m_gameEnd = true;
-        
 
-        
+        if (m_distanceBetweenPlayerCamera > m_maxDistance)
+        {
+            EventManager.PlayerDeath();
+            m_gameEnd = true;
+            return;
+        }
 
-
+        if (m_cameraObject.transform.position.z >= m_endLevelZ)
+        {
+            EventManager.PlayerDeath();
+            m_gameEnd = true;
+            return;
+        }
     }
+
 
     #endregion
 }
