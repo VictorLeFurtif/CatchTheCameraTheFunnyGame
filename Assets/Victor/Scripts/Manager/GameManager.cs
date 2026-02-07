@@ -71,7 +71,12 @@ public class GameManager : MonoBehaviour
             EventManager.PlayerWin();
             m_gameEnd = true;
             print("Player win");
+            AudioManager.instance.Stop("AMB_HipHop");
+            AudioManager.instance.Stop("AMB_City");
+
+            AudioManager.instance.Play("SFX_Victory");
             AudioManager.instance.Play("SFX_Cri");
+
             rec.SetActive(false);
             m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, 0);
             return;
@@ -81,6 +86,11 @@ public class GameManager : MonoBehaviour
         {
             EventManager.PlayerDeath();
             m_gameEnd = true;
+            AudioManager.instance.Stop("AMB_HipHop");
+            AudioManager.instance.Stop("AMB_City");
+            
+            AudioManager.instance.Play("SFX_GameOver");
+
             rec.SetActive(false);
             m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, 0);
             return;

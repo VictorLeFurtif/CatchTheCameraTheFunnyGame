@@ -26,7 +26,8 @@ public class AudioManager : MonoBehaviour
 
     public void Start()
     {
-        
+        Play("AMB_City");
+        Play("AMB_HipHop");
     }
 
     public void Play(string name, float pitch = 0, float volume = 0)
