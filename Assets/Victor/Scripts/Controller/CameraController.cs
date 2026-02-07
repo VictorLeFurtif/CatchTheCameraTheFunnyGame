@@ -8,8 +8,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float m_moveSpeed = 5f;
     
     [SerializeField] private CameraDirectionState m_cameraDirectionState = CameraDirectionState.None;
-    
-    
+
+    private bool m_move = true;
     
     #endregion
 
@@ -20,7 +20,15 @@ public class CameraController : MonoBehaviour
         CameraMovement();
     }
 
-   
+    private void OnEnable()
+    {
+        EventManager.OnPlayerWin += CancelMovement;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnPlayerWin -= CancelMovement;
+    }
 
     #endregion
 
@@ -28,6 +36,8 @@ public class CameraController : MonoBehaviour
 
     private void CameraMovement()
     {
+        if (!m_move) return;
+            
         switch (m_cameraDirectionState)
         {
             case CameraDirectionState.X:
@@ -47,5 +57,9 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    private void CancelMovement()
+    {
+        m_move = false;
+    }
     #endregion
 }

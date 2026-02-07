@@ -19,6 +19,7 @@ public static class EventManager
     public static void PlayerWin()
     {
         OnPlayerWin?.Invoke();
+        
     }
 
     public static void ToggleControls()
@@ -40,4 +41,6 @@ public static class EventManager
     {
         OnVortexEffect?.Invoke();
     }
+    
+    
 }

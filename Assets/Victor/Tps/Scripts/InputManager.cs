@@ -48,12 +48,14 @@ public class InputManager : MonoBehaviour
         m_playerControls.Enable();
 
         EventManager.OnPlayerDeath += CancelInput;
+        EventManager.OnPlayerWin += CancelInput;
         
     }
     private void OnDisable()
     {
         m_playerControls.Disable();
         EventManager.OnPlayerDeath -= CancelInput;
+        EventManager.OnPlayerWin -= CancelInput;
     }
 
     private void HandleMovementInput()

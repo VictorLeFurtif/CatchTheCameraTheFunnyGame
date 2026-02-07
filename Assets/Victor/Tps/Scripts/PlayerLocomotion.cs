@@ -95,11 +95,13 @@ public class PlayerLocomotion : MonoBehaviour
     private void OnEnable()
     {
         EventManager.OnToggleControls += ToggleControls;
+        EventManager.OnPlayerWin += ResetVelocity;
     }
 
     private void OnDisable()
     {
         EventManager.OnToggleControls -= ToggleControls;
+        EventManager.OnPlayerWin -= ResetVelocity;
     }
 
     private void HandleMovement()
@@ -241,5 +243,13 @@ public class PlayerLocomotion : MonoBehaviour
     private void ToggleControls()
     {
         isInverseControl = !isInverseControl;
+    }
+
+    private void ResetVelocity()
+    {
+        m_rb.linearVelocity = Vector3.zero;
+        m_rb.angularVelocity = Vector3.zero;
+        m_rb.constraints = RigidbodyConstraints.FreezePosition;
+        
     }
 }

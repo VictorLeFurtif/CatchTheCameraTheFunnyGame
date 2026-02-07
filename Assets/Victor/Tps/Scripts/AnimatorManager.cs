@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AnimatorManager : MonoBehaviour
 {
@@ -31,6 +33,18 @@ public class AnimatorManager : MonoBehaviour
         m_horizontalHashId = Animator.StringToHash("Horizontal");
         m_verticalHashId = Animator.StringToHash("Vertical");
     }
+
+    private void OnEnable()
+    {
+        EventManager.OnPlayerWin += PlayBreakDancdingAnimation;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnPlayerWin -= PlayBreakDancdingAnimation;
+    }
+
+    
 
     public void UpdateAnimatorValues(float horizontalMovement, float verticalMovement, bool isSprinting)
     {
@@ -65,6 +79,12 @@ public class AnimatorManager : MonoBehaviour
         if (value < -m_snapThreshold) return -1f;
         if (value < 0) return -0.5f;
         return 0f;
+    }
+    
+    private void PlayBreakDancdingAnimation()
+    {
+        
+        AnimatorEntity.Play("BreakDance");
     }
 
 }

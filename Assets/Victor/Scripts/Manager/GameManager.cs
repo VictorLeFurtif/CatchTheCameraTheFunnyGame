@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        
         CheckPlayerWinAndLoose();
     }
     
@@ -54,7 +55,8 @@ public class GameManager : MonoBehaviour
         if (m_gameEnd) return;
 
         m_distanceBetweenPlayerCamera =
-            Vector3.Distance(m_cameraObject.transform.position, m_playerObject.transform.position);
+            //Vector3.Distance(m_cameraObject.transform.position, m_playerObject.transform.position);
+            MathF.Abs(m_cameraObject.transform.position.z - m_playerObject.transform.position.z);
 
         float t = m_distanceBetweenPlayerCamera / m_maxDistance;
         m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, t);
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour
         {
             EventManager.PlayerWin();
             m_gameEnd = true;
+            print("Player win");
             return;
         }
 
