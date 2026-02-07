@@ -22,7 +22,10 @@ public class GameManager : MonoBehaviour
     private float m_deathShaderInitialIntensity;
     [SerializeField] private string m_nameDeathShaderParameters = "_Intensity";
     [SerializeField] private float m_endLevelZ;
-
+    
+    [Header("Set UI ")]
+    [SerializeField] private GameObject rec;
+    
 
     #endregion
 
@@ -36,6 +39,7 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
+        rec.SetActive(true);
         if (m_materialDeathIndicator != null)
             m_deathShaderInitialIntensity = m_materialDeathIndicator.GetFloat(m_nameDeathShaderParameters);
     }
@@ -66,6 +70,8 @@ public class GameManager : MonoBehaviour
             EventManager.PlayerWin();
             m_gameEnd = true;
             print("Player win");
+            rec.SetActive(false);
+            m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, 0);
             return;
         }
 
@@ -73,6 +79,8 @@ public class GameManager : MonoBehaviour
         {
             EventManager.PlayerDeath();
             m_gameEnd = true;
+            rec.SetActive(false);
+            m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, 0);
             return;
         }
 
@@ -80,6 +88,8 @@ public class GameManager : MonoBehaviour
         {
             EventManager.PlayerDeath();
             m_gameEnd = true;
+            rec.SetActive(false);
+            m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, 0);
             return;
         }
     }

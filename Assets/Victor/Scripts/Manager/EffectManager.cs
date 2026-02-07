@@ -43,6 +43,12 @@ public class EffectManager : MonoBehaviour
     [SerializeField] private float m_maxTimeInverseControls = 0f;
     private float timerInverseControls = 0f;
     private float timerInverseControlsMax = 0f;
+    
+    [Header("Set UI ")]
+    [SerializeField] private GameObject alcool;
+    [SerializeField] private GameObject canabis;
+    [SerializeField] private GameObject champignon;
+    
 
     #endregion
     
@@ -101,11 +107,12 @@ public class EffectManager : MonoBehaviour
         if (m_currentEffect != null)
             StopCoroutine(m_currentEffect);
             
-        m_currentEffect = StartCoroutine(IEFovEffect(effectDuration));
+        m_currentEffect = StartCoroutine(IEFovEffect(effectDuration, alcool));
     }
 
-    private IEnumerator IEFovEffect(float targetTime)
+    private IEnumerator IEFovEffect(float targetTime, GameObject ui)
     {
+        ui.SetActive(true);
         float elapsedTime = 0;
         float halfTime = targetTime / 2f;
         
@@ -129,6 +136,7 @@ public class EffectManager : MonoBehaviour
         
         cameraMain.fieldOfView = m_defaultFov;
         m_currentEffect = null;
+        ui.SetActive(false);
     }
 
     #endregion
@@ -141,10 +149,10 @@ public class EffectManager : MonoBehaviour
 
     #region Material Intensity Effects
 
-    private IEnumerator ToggleIntensityEffect(float intensity, float duration, float fadeTime, Material material, string nameParameters)
+    private IEnumerator ToggleIntensityEffect(float intensity, float duration, float fadeTime, Material material, string nameParameters, GameObject ui)
     {
         float elapsedTime = 0;
-        
+        ui.SetActive(true);
         while (elapsedTime < fadeTime)
         {
             elapsedTime += Time.deltaTime;
@@ -166,20 +174,20 @@ public class EffectManager : MonoBehaviour
             material.SetFloat(nameParameters, Mathf.Lerp(intensity, 0, t));
             yield return null;
         }
-        
+        ui.SetActive(false);
         material.SetFloat(nameParameters, 0);
     }
 
     public void VortexEffect()
     {
         StartCoroutine(ToggleIntensityEffect(m_intensityVortex,
-            m_durationVortex, m_fadeVortex,m_materialVortex,m_nameVortexParameters));
+            m_durationVortex, m_fadeVortex,m_materialVortex,m_nameVortexParameters, champignon));
     }
     
     public void AlcoolEffect()
     {
         StartCoroutine(ToggleIntensityEffect(m_intensityAlcool,
-            m_durationAlcool, m_fadeAlcool, m_materialAlcool,m_nameAlcoolParameters));
+            m_durationAlcool, m_fadeAlcool, m_materialAlcool,m_nameAlcoolParameters, canabis));
     }
 
     #endregion
