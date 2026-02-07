@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine.Audio;
 
@@ -31,7 +29,7 @@ public class AudioManager : MonoBehaviour
         
     }
 
-    public void Play()
+    public void Play(string name, float pitch = 0, float volume = 0)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
 
@@ -43,8 +41,8 @@ public class AudioManager : MonoBehaviour
             source.outputAudioMixerGroup = s.audioMixerGroup;
             source.clip = s.clip;
             source.loop = s.loop;
-            source.volume = s.volume;
-            source.pitch = s.pitch;
+            source.volume = s.volume + volume;
+            source.pitch = s.pitch + pitch;
             source.Play();
         }
         

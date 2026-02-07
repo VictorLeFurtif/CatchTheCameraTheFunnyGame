@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [Header("Set UI ")]
     [SerializeField] private GameObject rec;
     
+    
 
     #endregion
 
@@ -70,21 +71,13 @@ public class GameManager : MonoBehaviour
             EventManager.PlayerWin();
             m_gameEnd = true;
             print("Player win");
+            AudioManager.instance.Play("SFX_Cri");
             rec.SetActive(false);
             m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, 0);
             return;
         }
 
-        if (m_distanceBetweenPlayerCamera > m_maxDistance)
-        {
-            EventManager.PlayerDeath();
-            m_gameEnd = true;
-            rec.SetActive(false);
-            m_materialDeathIndicator.SetFloat(m_nameDeathShaderParameters, 0);
-            return;
-        }
-
-        if (m_cameraObject.transform.position.z >= m_endLevelZ)
+        if (m_distanceBetweenPlayerCamera > m_maxDistance || m_cameraObject.transform.position.z >= m_endLevelZ)
         {
             EventManager.PlayerDeath();
             m_gameEnd = true;
