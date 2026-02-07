@@ -30,7 +30,7 @@ public class AudioManager : MonoBehaviour
         Play("AMB_HipHop");
     }
 
-    public void Play(string name, float pitch = 0, float volume = 0)
+    public void Play(string name, float pitch = 0, float volume = 1)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
 
