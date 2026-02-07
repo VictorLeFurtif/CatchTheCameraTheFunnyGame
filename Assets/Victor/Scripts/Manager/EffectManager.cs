@@ -49,6 +49,12 @@ public class EffectManager : MonoBehaviour
     [SerializeField] private GameObject canabis;
     [SerializeField] private GameObject champignon;
     
+    [Header("Set Sounds")]
+    [SerializeField] private string SFX_alcool;
+    [SerializeField] private string SFX_canabis;
+    [SerializeField] private string SFX_champignon;
+    [SerializeField] private string SFX_item;
+    
 
     #endregion
     
@@ -104,6 +110,8 @@ public class EffectManager : MonoBehaviour
 
     public void FovEffect()
     {
+        AudioManager.instance.Play(SFX_item);
+        AudioManager.instance.Play(SFX_alcool);
         if (m_currentEffect != null)
             StopCoroutine(m_currentEffect);
             
@@ -175,17 +183,22 @@ public class EffectManager : MonoBehaviour
             yield return null;
         }
         ui.SetActive(false);
+        
         material.SetFloat(nameParameters, 0);
     }
 
     public void VortexEffect()
     {
+        AudioManager.instance.Play(SFX_item);
+        AudioManager.instance.Play(SFX_champignon);
         StartCoroutine(ToggleIntensityEffect(m_intensityVortex,
             m_durationVortex, m_fadeVortex,m_materialVortex,m_nameVortexParameters, champignon));
     }
     
     public void AlcoolEffect()
     {
+        AudioManager.instance.Play(SFX_item);
+        AudioManager.instance.Play(SFX_canabis);
         StartCoroutine(ToggleIntensityEffect(m_intensityAlcool,
             m_durationAlcool, m_fadeAlcool, m_materialAlcool,m_nameAlcoolParameters, canabis));
     }
